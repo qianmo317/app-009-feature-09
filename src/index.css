@@ -21,3 +21,222 @@ input, button {
     background: #fff;
   }
 }
+
+/* ===== 打印页（/print）===== */
+.print-app {
+  min-height: 100vh;
+  background: #f5f3ef;
+}
+
+.print-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  border-bottom: 1px solid #e0dcd5;
+  padding: 10px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.print-toolbar label {
+  font-size: 13px;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.print-toolbar select,
+.print-toolbar input[type='number'] {
+  padding: 4px 8px;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.print-toolbar input[type='number'] {
+  width: 72px;
+}
+
+.print-toolbar .print-hint {
+  font-size: 12px;
+  color: #999;
+}
+
+.print-toolbar button {
+  padding: 6px 16px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #8e44ad;
+  background: #8e44ad;
+  color: #fff;
+  cursor: pointer;
+}
+
+.print-toolbar button.secondary {
+  border-color: #bdc3c7;
+  background: #ecf0f1;
+  color: #333;
+}
+
+.print-preview {
+  padding: 24px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* 一张物理纸页：宽高由 JS 注入的 CSS 变量（毫米）决定 */
+.print-sheet {
+  width: var(--pw);
+  height: var(--ph);
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  padding: 10mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.print-sheet__header {
+  height: 14mm;
+  border-bottom: 0.3mm solid #d8d2c8;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.print-sheet__title {
+  font-size: 3.8mm;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.print-sheet__meta {
+  font-size: 3mm;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.print-sheet__mark {
+  font-size: 3.2mm;
+  color: #666;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.print-sheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.print-sheet__body canvas {
+  display: block;
+}
+
+/* 封面页（图例 + 用线量） */
+.print-cover h2 {
+  font-size: 6mm;
+  margin: 0 0 3mm;
+}
+
+.print-cover .print-cover__sub {
+  font-size: 3.2mm;
+  color: #888;
+  margin: 0 0 6mm;
+}
+
+.print-cover h4 {
+  font-size: 3.6mm;
+  margin: 5mm 0 2.5mm;
+}
+
+.print-cover__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3mm 5mm;
+  font-size: 3mm;
+}
+
+.print-cover__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5mm;
+}
+
+.print-cover__legend i {
+  width: 3.5mm;
+  height: 3.5mm;
+  border: 0.25mm solid #ddd;
+  display: inline-block;
+}
+
+.print-cover table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 3mm;
+}
+
+.print-cover th,
+.print-cover td {
+  text-align: left;
+  padding: 1.6mm 2mm;
+  border-bottom: 0.2mm solid #eee;
+}
+
+.print-cover th {
+  border-bottom: 0.3mm solid #d8d2c8;
+}
+
+.print-cover td.num,
+.print-cover th.num {
+  text-align: right;
+}
+
+@media print {
+  .print-toolbar {
+    display: none;
+  }
+
+  .print-app,
+  .print-preview {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    display: block;
+  }
+
+  .print-sheet {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .print-sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
